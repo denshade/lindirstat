@@ -29,6 +29,6 @@ public class FileSystemScanner
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println(FileSystemScanner.scan(new File("c:\\test")));
+        System.out.println(FileSystemScanner.scan(new File("c:\\tmp")));
     }
 }
