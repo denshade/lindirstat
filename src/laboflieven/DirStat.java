@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class DirStat
 {
-    public static Map<String, Long> getDirectoryStats(List<FileStat> files)
+    public static Map<String, Long> getDirectoryStats(List<FileStat> files, String sourceDirectory)
     {
         Map<String, Long> paths = new HashMap<>();
         for (FileStat file : files)
@@ -31,6 +31,6 @@ public class DirStat
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println(DirStat.getDirectoryStats(FileSystemScanner.scan(new File("c:\\tmp"))));
+        System.out.println(DirStat.getDirectoryStats(FileSystemScanner.scan(new File("c:\\tmp")), "c:\\tmp"));
     }
 }
