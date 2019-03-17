@@ -17,11 +17,11 @@ public class DirStatTextRenderer
     }
     public void showAsText()
     {
-        drawBarChart(80);
+        drawBarChart(80, 300);
     }
 
 
-    private void drawBarChart(int maxRowSize) {
+    private void drawBarChart(int maxRowSize, int maxUISize) {
         long totalSize = 0;
         for (Long l : elements.values())
             totalSize += l;
@@ -31,7 +31,7 @@ public class DirStatTextRenderer
         int sizeRow = 0;
         for (Map.Entry<String, Long> entry : elements.entrySet())
         {
-            int newSize = recalc(entry.getValue(), totalSize, 300);
+            int newSize = recalc(entry.getValue(), totalSize, maxUISize);
 
             for (int a = 0; a < newSize; a++)
             {
@@ -64,12 +64,12 @@ public class DirStatTextRenderer
         elements.put("/tmp", 50L);
         elements.put("/opt", 50L);
         DirStatTextRenderer r = new DirStatTextRenderer(elements);
-        r.drawBarChart(100);
+        r.drawBarChart(100, 300);
 
         elements = new HashMap<String, Long>();
         elements.put("/tmp", 0L);
         elements.put("/opt", 50L);
         r = new DirStatTextRenderer(elements);
-        r.drawBarChart(100);
+        r.drawBarChart(100, 100/3);
     }
 }
