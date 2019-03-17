@@ -1,5 +1,6 @@
 package laboflieven;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,16 +61,16 @@ public class DirStatTextRenderer
 
 
     public static void main(String[] args) throws IOException {
-        Map<String, Long> elements = new HashMap<String, Long>();
-        elements.put("/tmp", 50L);
-        elements.put("/opt", 50L);
-        DirStatTextRenderer r = new DirStatTextRenderer(elements);
-        r.drawBarChart(100, 300);
+        if (args.length != 1)
+        {
+            System.err.println("Usage: This <Subdirectory>");
+            System.exit(1);
+        }
+        String subDir = args[0];
 
-        elements = new HashMap<String, Long>();
-        elements.put("/tmp", 0L);
-        elements.put("/opt", 50L);
-        r = new DirStatTextRenderer(elements);
+        Map<String, Long>  elements = DirStat.getDirectoryStats(FileSystemScanner.scan(new File(subDir)), subDir);
+        DirStatTextRenderer r = new DirStatTextRenderer(elements);
         r.drawBarChart(100, 100/3);
+
     }
 }
