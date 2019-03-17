@@ -1,12 +1,8 @@
 package laboflieven;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class DirStatTextRenderer
 {
@@ -21,23 +17,31 @@ public class DirStatTextRenderer
     }
     public void showAsText()
     {
-        drawBarChart();
+        drawBarChart(80);
     }
 
 
-    private void drawBarChart() {
+    private void drawBarChart(int maxRowSize) {
         long totalSize = 0;
         for (Long l : elements.values())
             totalSize += l;
         int index = 0;
         StringBuffer legend = new StringBuffer();
-        legend.append("Legend:");
+        legend.append("Legend:\n");
+        int sizeRow = 0;
         for (Map.Entry<String, Long> entry : elements.entrySet())
         {
-            int newSize = recalc(entry.getValue(), totalSize, 200);
+            int newSize = recalc(entry.getValue(), totalSize, 300);
+
             for (int a = 0; a < newSize; a++)
             {
-                System.out.print("["+index+"]");
+                System.out.print("."+index+".");
+                sizeRow += ("."+index+".").length();
+                if (sizeRow > maxRowSize)
+                {
+                    System.out.println();
+                    sizeRow = 0;
+                }
             }
             legend.append(index);
             legend.append(":");
@@ -45,6 +49,7 @@ public class DirStatTextRenderer
             legend.append("\n");
             index++;
         }
+        System.out.println();
         System.out.println(legend);
     }
 
@@ -59,6 +64,12 @@ public class DirStatTextRenderer
         elements.put("/tmp", 50L);
         elements.put("/opt", 50L);
         DirStatTextRenderer r = new DirStatTextRenderer(elements);
-        r.drawBarChart();
+        r.drawBarChart(100);
+
+        elements = new HashMap<String, Long>();
+        elements.put("/tmp", 0L);
+        elements.put("/opt", 50L);
+        r = new DirStatTextRenderer(elements);
+        r.drawBarChart(100);
     }
 }
