@@ -16,11 +16,6 @@ public class DirStatTextRenderer
         super();
         this.elements = elements;
     }
-    public void showAsText()
-    {
-        drawBarChart(80, 300);
-    }
-
 
     private void drawBarChart(int maxRowSize, int maxUISize) {
         long totalSize = 0;
@@ -32,9 +27,9 @@ public class DirStatTextRenderer
         int sizeRow = 0;
         for (Map.Entry<String, Long> entry : elements.entrySet())
         {
-            int newSize = recalc(entry.getValue(), totalSize, maxUISize);
+            int sizeInBlocks = recalc(entry.getValue(), totalSize, maxUISize);
 
-            for (int a = 0; a < newSize; a++)
+            for (int a = 0; a < sizeInBlocks; a++)
             {
                 System.out.print("."+index+".");
                 sizeRow += ("."+index+".").length();
@@ -44,11 +39,14 @@ public class DirStatTextRenderer
                     sizeRow = 0;
                 }
             }
-            legend.append(index);
-            legend.append(":");
-            legend.append(entry.getKey());
-            legend.append("\n");
-            index++;
+            if (sizeInBlocks > 0)
+            {
+                legend.append(index);
+                legend.append(":");
+                legend.append(entry.getKey());
+                legend.append("\n");
+                index++;
+            }
         }
         System.out.println();
         System.out.println(legend);
@@ -61,16 +59,17 @@ public class DirStatTextRenderer
 
 
     public static void main(String[] args) throws IOException {
-        if (args.length != 1)
+        if (args.length != 2)
         {
-            System.err.println("Usage: This <Subdirectory>");
+            System.err.println("Usage: This <Subdirectory> <barsize>");
             System.exit(1);
         }
         String subDir = args[0];
+        Integer barsize = Integer.parseInt(args[1]);
 
         Map<String, Long>  elements = DirStat.getDirectoryStats(FileSystemScanner.scan(new File(subDir)), subDir);
         DirStatTextRenderer r = new DirStatTextRenderer(elements);
-        r.drawBarChart(100, 100/3);
+        r.drawBarChart(100, barsize);
 
     }
 }
