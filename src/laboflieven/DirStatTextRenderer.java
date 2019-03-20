@@ -61,12 +61,15 @@ public class DirStatTextRenderer
     public static void main(String[] args) throws IOException {
         if (args.length != 2)
         {
-            System.err.println("Usage: This <Subdirectory> <barsize>");
+            System.err.println("Usage: This <subdirectory> <barsize>");
             System.exit(1);
         }
         String subDir = args[0];
         Integer barsize = Integer.parseInt(args[1]);
-
+        if (subDir.endsWith("\\"))
+        {
+            subDir = subDir.substring(0, subDir.length() - 1);
+        }
         Map<String, Long>  elements = DirStat.getDirectoryStats(FileSystemScanner.scan(new File(subDir)), subDir);
         DirStatTextRenderer r = new DirStatTextRenderer(elements);
         r.drawBarChart(100, barsize);
