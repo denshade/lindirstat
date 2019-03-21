@@ -1,0 +1,1 @@
+java -jar lindirstat.jar $1 $2

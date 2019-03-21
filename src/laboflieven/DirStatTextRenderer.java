@@ -66,7 +66,7 @@ public class DirStatTextRenderer
         }
         String subDir = args[0];
         Integer barsize = Integer.parseInt(args[1]);
-        if (subDir.endsWith("\\"))
+        if (subDir.endsWith("\\") || subDir.endsWith("/"))
         {
             subDir = subDir.substring(0, subDir.length() - 1);
         }
