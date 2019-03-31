@@ -4,4 +4,14 @@ if [ $# -ne 1 ]; then
  exit 1
 fi
 cd $1
-du . | sort -n | python dupc.py
+echo " ${TMPDIR-/tmp}"
+du . | sort -n | python -c '
+import sys
+elements = []
+for line in sys.stdin:
+    (size, label) = line.split("\t")
+    elements.append((size, label))
+    totalsize = size
+for size, label in elements:
+    print(str(("{0:0.2f}".format(int(size)*100/int(totalsize))) + "% " + label.rstrip()))
+'
